@@ -6,19 +6,177 @@
   filter: drop-shadow(0 0 2em #61dafb);
 }
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.titlebar {
+  height: 38px;
+  background: linear-gradient(to bottom, #f6f6f6, #e8e8e8);
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  border-bottom: 1px solid #d1d1d1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.titlebar-title {
+  color: #333;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+*[data-tauri-drag-region] {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+/* Ensure buttons don't interfere with dragging */
+.titlebar button {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 10;
+}
+
+.traffic-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.traffic-light svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.traffic-light.close {
+  background-color: #e0443e;
+}
+
+.traffic-light.minimize {
+  background-color: #e4a100;
+}
+
+.traffic-light.maximize {
+  background-color: #18c33c;
+}
+
+.traffic-light:hover {
+  transform: scale(1.1);
+}
+
+.traffic-light:hover svg {
+  opacity: 1;
+}
+
+.traffic-light.close:hover {
+  background-color: #c2362e;
+}
+
+.traffic-light.minimize:hover {
+  background-color: #cc9000;
+}
+
+.traffic-light.maximize:hover {
+  background-color: #15a630;
+}
+
+/* Add subtle border for depth */
+.traffic-light {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5),
+              inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.titlebar-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.titlebar-button {
+  width: 16px;
+  height: 16px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+  color: #666;
+  background: transparent;
+  border-radius: 2px;
+}
+
+.titlebar-button:hover {
+  color: #333;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.titlebar-button.pin.active {
+  color: #007aff;
+}
+
+.titlebar-button.pin svg {
+  width: 14px;
+  height: 14px;
 }
 
 .container {
@@ -28,6 +186,11 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .logo {
@@ -62,33 +225,27 @@ h1 {
 
 input,
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
+  border-radius: 6px;
+  border: 1px solid #d1d1d1;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #333;
   background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
-
-input,
-button {
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   outline: none;
+}
+
+
+input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
 }
 
 #greet-input {
@@ -99,6 +256,9 @@ button {
   :root {
     color: #f6f6f6;
     background-color: #2f2f2f;
+    position: static;
+    overflow: hidden;
+    padding: 0;
   }
 
   a:hover {
@@ -106,10 +266,6 @@ button {
   }
 
   input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
-  }
   button:active {
     background-color: #0f0f0f69;
   }

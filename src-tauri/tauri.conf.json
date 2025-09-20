@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "tauri-app",
+        "title": "htool mirror",
         "minHeight": 960,
         "minWidth": 435.2,
         "width": 544,
@@ -20,7 +20,8 @@
         "maxHeight": 1200,
         "maxWidth": 544,
         "resizable": true,
-        "url": "http://localhost:8080"
+        "decorations": false,
+        "url": "/"
       }
     ],
     "security": {

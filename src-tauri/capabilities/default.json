@@ -2,9 +2,20 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": [
+    "main",
+    "settings"
+  ],
+  "remote": {
+    "urls": [
+      "http://localhost:1420/*",
+      "http://127.0.0.1:8080/*"
+    ]
+  },
   "permissions": [
     "core:default",
-    "opener:default"
+    "opener:default",
+    "core:window:default",
+    "core:window:allow-start-dragging"
   ]
 }
